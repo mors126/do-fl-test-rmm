@@ -18,6 +18,9 @@ spec:
           image: {{ .Values.image.backend }}
           ports:
             - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: tacticalrmm-backend-config
           env:
             - name: DJANGO_SECRET_KEY
               valueFrom:

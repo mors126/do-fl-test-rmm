@@ -26,3 +26,16 @@ persistence:
     size: 5Gi
   meshcentral:
     enabled: false # You can toggle PVC later
+
+config:
+  allowedHosts: "localhost,127.0.0.1,.tacticalrmm.local"
+  apiHost: "https://api.tacticalrmm.local"
+  frontendUrl: "https://frontend.tacticalrmm.local"
+  meshUrl: "https://mesh.tacticalrmm.local"
+  redisHost: "tacticalrmm-redis"
+  redisPort: "6379"
+  natsHost: "tacticalrmm-nats"
+  natsPort: "4222"
+  dbName: "tacticalrmm"
+  dbUser: "tactical"
+  timezone: "UTC"

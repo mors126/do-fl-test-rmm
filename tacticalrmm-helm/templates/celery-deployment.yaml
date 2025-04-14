@@ -17,6 +17,9 @@ spec:
         - name: celery
           image: {{ .Values.image.backend }}
           command: ["celery", "-A", "api", "worker", "--loglevel=info"]
+          envFrom:
+            - configMapRef:
+                name: tacticalrmm-backend-config
           env:
             - name: DATABASE_URL
               value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/tacticalrmm
