@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tacticalrmm-frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tacticalrmm-frontend
+  template:
+    metadata:
+      labels:
+        app: tacticalrmm-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.image.frontend }}
+          ports:
+            - containerPort: 80

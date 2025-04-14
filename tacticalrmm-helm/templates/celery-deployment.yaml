@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tacticalrmm-celery
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tacticalrmm-celery
+  template:
+    metadata:
+      labels:
+        app: tacticalrmm-celery
+    spec:
+      containers:
+        - name: celery
+          image: {{ .Values.image.backend }}
+          command: ["celery", "-A", "api", "worker", "--loglevel=info"]
+          env:
+            - name: DATABASE_URL
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/tacticalrmm
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_HOST
+              value: redis

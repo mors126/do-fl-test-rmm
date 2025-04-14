@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tacticalrmm-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tacticalrmm-backend
+  template:
+    metadata:
+      labels:
+        app: tacticalrmm-backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.image.backend }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: DJANGO_SECRET_KEY
+            - name: DATABASE_URL
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/tacticalrmm
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_HOST
+              value: redis
