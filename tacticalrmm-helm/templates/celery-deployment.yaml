@@ -16,7 +16,8 @@ spec:
       containers:
         - name: celery
           image: {{ .Values.image.backend }}
-          command: ["celery", "-A", "api", "worker", "--loglevel=info"]
+          command: ["/entrypoint.sh"]
+          args: ["tactical-celery"]
           envFrom:
             - configMapRef:
                 name: tacticalrmm-backend-config

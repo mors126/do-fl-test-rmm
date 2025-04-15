@@ -13,9 +13,39 @@ spec:
       labels:
         app: tacticalrmm-backend
     spec:
+      initContainers:
+        - name: tactical-init
+          image: mmoroz612/tbe:1.1.1
+          command: ["/entrypoint.sh", "tactical-init"]
+          volumeMounts:
+            - name: tactical-volume
+              mountPath: /opt/tactical
+          envFrom:
+            - configMapRef:
+                name: tacticalrmm-backend-config
+          env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: DJANGO_SECRET_KEY
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: tacticalrmm-secrets
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_HOST
+              value: redis
       containers:
         - name: backend
           image: {{ .Values.image.backend }}
+          command: ["/entrypoint.sh"]
+          args: ["tactical-backend"]
           ports:
             - containerPort: 8000
           envFrom:
@@ -41,3 +71,6 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: REDIS_HOST
               value: redis
+      volumes:
+        - name: tactical-volume
+          emptyDir: {}

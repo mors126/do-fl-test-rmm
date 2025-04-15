@@ -20,7 +20,7 @@ spec:
             - containerPort: 443
           volumeMounts:
             - name: meshcentral-data
-              mountPath: /opt/meshcentral/meshcentral-data
+              mountPath: /home/node/app/meshcentral-data
       volumes:
         - name: meshcentral-data
           emptyDir: {}

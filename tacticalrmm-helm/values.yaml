@@ -4,11 +4,10 @@ image:
   backend: mmoroz612/tbe:1.1.1
   frontend: mmoroz612/tfe:1.1.1
   meshcentral: mmoroz612/tmesh:1.1.1
-  # meshcentral: typhonragewind/meshcentral
   redis: redis:6
   postgres: postgres:13
   nats: mmoroz612/tnats:1.1.1
-  # nats: nats:latest
+  nginx: mmoroz612/tnginx:1.1.1
   tag: ""
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -39,3 +38,9 @@ config:
   dbName: "tacticalrmm"
   dbUser: "tactical"
   timezone: "UTC"
+
+secrets:
+  djangoSecretKey: changemeplease
+  postgresUser: tactical
+  postgresPassword: supersecurepassword
+  postgresDb: tacticalrmm
