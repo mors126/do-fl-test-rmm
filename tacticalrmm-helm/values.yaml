@@ -38,9 +38,3 @@ config:
   dbName: "tacticalrmm"
   dbUser: "tactical"
   timezone: "UTC"
-
-secrets:
-  djangoSecretKey: changemeplease
-  postgresUser: tactical
-  postgresPassword: supersecurepassword
-  postgresDb: tacticalrmm

@@ -20,3 +20,16 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          volumeMounts:
+            - name: certs
+              mountPath: /opt/tactical/certs
+          env:
+            - name: API_HOST
+              value: "api.tacticalrmm.local"
+            - name: APP_HOST
+              value: "frontend.tacticalrmm.local"
+            - name: MESH_HOST
+              value: "mesh.tacticalrmm.local"
+      volumes:
+        - name: certs
+          emptyDir: {}

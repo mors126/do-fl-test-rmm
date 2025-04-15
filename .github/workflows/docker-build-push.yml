@@ -36,15 +36,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Tactical Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          pull: true
-          file: ./docker/containers/tactical/dockerfile
-          platforms: linux/amd64
-          tags: mmoroz612/tbe:${{ env.TAG }},mmoroz612/tbe:latest
+      # - name: Build and Push Tactical Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     pull: true
+      #     file: ./docker/containers/tactical/dockerfile
+      #     platforms: linux/amd64
+      #     tags: mmoroz612/tbe:${{ env.TAG }},mmoroz612/tbe:latest
 
       - name: Build and Push Tactical MeshCentral Image
         uses: docker/build-push-action@v2
@@ -56,32 +56,32 @@ jobs:
           platforms: linux/amd64
           tags: mmoroz612/tmesh:${{ env.TAG }},mmoroz612/tmesh:latest
 
-      - name: Build and Push Tactical NATS Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          pull: true
-          file: ./docker/containers/tactical-nats/dockerfile
-          platforms: linux/amd64
-          tags: mmoroz612/tnats:${{ env.TAG }},mmoroz612/tnats:latest
+      # - name: Build and Push Tactical NATS Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     pull: true
+      #     file: ./docker/containers/tactical-nats/dockerfile
+      #     platforms: linux/amd64
+      #     tags: mmoroz612/tnats:${{ env.TAG }},mmoroz612/tnats:latest
 
-      - name: Build and Push Tactical Frontend Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          pull: true
-          file: ./docker/containers/tactical-frontend/dockerfile
-          platforms: linux/amd64
-          tags: mmoroz612/tfe:${{ env.TAG }},mmoroz612/tfe:latest
+      # - name: Build and Push Tactical Frontend Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     pull: true
+      #     file: ./docker/containers/tactical-frontend/dockerfile
+      #     platforms: linux/amd64
+      #     tags: mmoroz612/tfe:${{ env.TAG }},mmoroz612/tfe:latest
 
-      - name: Build and Push Tactical Nginx Image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          pull: true
-          file: ./docker/containers/tactical-nginx/dockerfile
-          platforms: linux/amd64
-          tags: mmoroz612/tnginx:${{ env.TAG }},mmoroz612/tnginx:latest
+      # - name: Build and Push Tactical Nginx Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     pull: true
+      #     file: ./docker/containers/tactical-nginx/dockerfile
+      #     platforms: linux/amd64
+      #     tags: mmoroz612/tnginx:${{ env.TAG }},mmoroz612/tnginx:latest
