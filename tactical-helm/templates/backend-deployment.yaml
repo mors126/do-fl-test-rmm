@@ -21,10 +21,6 @@ spec:
         - name: tactical-init
           image: "{{ .Values.image.backend }}:{{ .Values.image.tag | default "latest" }}"
           command: ["/entrypoint.sh", "tactical-init"]
-          securityContext:
-            {{- if .Values.securityContext }}
-            {{- toYaml .Values.securityContext | nindent 12 }}
-            {{- end }}
           volumeMounts:
             - name: tactical-volume
               mountPath: /opt/tactical
