@@ -51,6 +51,13 @@ mongodb:
     persistence:
       enabled: false
       size: 8Gi
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
 
 secrets:
   djangoSecretKey: changemeplease
