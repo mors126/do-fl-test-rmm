@@ -1,16 +1,23 @@
 namespace: tactical
 
 image:
-  backend: mmoroz612/tbe:1.1.1
-  frontend: mmoroz612/tfe:1.1.1
-  meshcentral: mmoroz612/tmesh:1.1.1
+  backend: mmoroz612/tbe
+  frontend: mmoroz612/tfe
+  meshcentral: mmoroz612/tmesh
   redis: redis:6
   postgres: postgres:13
-  nats: mmoroz612/tnats:1.1.1
-  nginx: mmoroz612/tnginx:1.1.1
+  nats: mmoroz612/tnats
+  nginx: mmoroz612/tnginx
   tag: ""
   pullPolicy: IfNotPresent
   pullSecrets: []
+
+podSecurityContext:
+  fsGroup: 2000
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 3000
 
 ingress:
   enabled: true
@@ -41,8 +48,6 @@ config:
 
 mongodb:
   enabled: true
-  auth:
-
   architecture: standalone
   primary:
     persistence:
@@ -55,5 +60,3 @@ mongodb:
     requests:
       cpu: 50m
       memory: 128Mi
-
-secrets:

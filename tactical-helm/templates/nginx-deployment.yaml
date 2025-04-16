@@ -14,9 +14,17 @@ spec:
       labels:
         app: tactical-nginx
     spec:
+      securityContext:
+        {{- if .Values.podSecurityContext }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       containers:
         - name: nginx
-          image: {{ .Values.image.nginx }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.nginx }}:{{ .Values.image.tag | default "latest" }}"
+          securityContext:
+            {{- if .Values.securityContext }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- end }}
           resources:
             limits:
               cpu: 100m

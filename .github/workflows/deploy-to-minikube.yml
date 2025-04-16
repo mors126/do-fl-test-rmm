@@ -33,6 +33,20 @@ jobs:
       - name: Create namespace (if needed)
         run: kubectl create namespace tactical || true
 
+      - name: Generate secrets.yaml from template
+        run: |
+          mkdir -p tactical-helm/environments/${{ env.STAGE }}
+          envsubst < tactical-helm/environments/${{ env.STAGE }}/secrets.yaml.template > tactical-helm/environments/${{ env.STAGE }}/secrets.yaml
+        env:
+          MONGO_ROOT_PASS: ${{ secrets.MONGO_ROOT_PASS }}
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASS: ${{ secrets.MONGO_PASS }}
+          MONGO_DB: ${{ secrets.MONGO_DB }}
+          DJANGO_SEC: ${{ secrets.DJANGO_SEC }}
+          PG_USER: ${{ secrets.PG_USER }}
+          PG_PASS: ${{ secrets.PG_PASS }}
+          PG_DB: ${{ secrets.PG_DB }}
+
       - name: Deploy Helm chart
         run: |
           helm upgrade --install tactical ./tactical-helm \
@@ -40,15 +54,8 @@ jobs:
             --create-namespace \
             --values ./tactical-helm/values.yaml \
             --values ./tactical-helm/environments/${{ env.STAGE }}/values.yaml \
+            --values ./tactical-helm/environments/${{ env.STAGE }}/secrets.yaml \
             --set image.tag=1.1.1 \
-            --set auth.rootPassword=${{ secrets.MONGO_ROOT_PASS }} \
-            --set auth.username=${{ secrets.MONGO_USER }} \
-            --set auth.password=${{ secrets.MONGO_PASS }} \
-            --set auth.database=${{ secrets.MONGO_DB }} \
-            --set djangoSecretKey=${{ secrets.DJANGO_SEC }} \
-            --set postgresUser=${{ secrets.PG_USER }} \
-            --set postgresPassword=${{ secrets.PG_PASS }} \
-            --set postgresDb=${{ secrets.PG_DB }} \
             --wait --timeout 2m0s
 
       - name: Show deployed services

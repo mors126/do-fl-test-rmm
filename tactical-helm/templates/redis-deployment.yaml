@@ -13,9 +13,17 @@ spec:
       labels:
         app: redis
     spec:
+      securityContext:
+        {{- if .Values.podSecurityContext }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       containers:
         - name: redis
           image: {{ .Values.image.redis }}
+          securityContext:
+            {{- if .Values.securityContext }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- end }}
           resources:
             limits:
               cpu: 100m
@@ -32,7 +40,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
             failureThreshold: 3
-
           readinessProbe:
             tcpSocket:
               port: 6379

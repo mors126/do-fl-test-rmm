@@ -18,7 +18,7 @@ spec:
               service:
                 name: tactical-frontend
                 port:
-                  number: 80
+                  number: 8080
     - host: {{ .Values.ingress.hosts.backend }}
       http:
         paths:
@@ -28,7 +28,7 @@ spec:
               service:
                 name: tactical-backend
                 port:
-                  number: 80
+                  number: 8080
     - host: {{ .Values.ingress.hosts.mesh }}
       http:
         paths:
@@ -38,5 +38,5 @@ spec:
               service:
                 name: meshcentral
                 port:
-                  number: 443
+                  number: 8080
 {{- end }}

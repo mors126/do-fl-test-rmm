@@ -13,9 +13,13 @@ spec:
       labels:
         app: tactical-backend
     spec:
+      securityContext:
+        {{- if .Values.podSecurityContext }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       initContainers:
         - name: tactical-init
-          image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.backend }}:{{ .Values.image.tag | default "latest" }}"
           command: ["/entrypoint.sh", "tactical-init"]
           volumeMounts:
             - name: tactical-volume
@@ -43,9 +47,11 @@ spec:
               value: redis
       containers:
         - name: backend
-          image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.backend }}:{{ .Values.image.tag | default "latest" }}"
           command: ["/entrypoint.sh"]
           args: ["tactical-backend"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
             - containerPort: 8000
           resources:
