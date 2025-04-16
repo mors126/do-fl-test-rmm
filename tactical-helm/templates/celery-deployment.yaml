@@ -13,11 +13,15 @@ spec:
       labels:
         app: tactical-celery
     spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: celery
           image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
           command: ["/entrypoint.sh"]
           args: ["tactical-celery"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             limits:
               cpu: 100m

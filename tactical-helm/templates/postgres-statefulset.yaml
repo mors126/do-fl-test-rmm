@@ -14,9 +14,13 @@ spec:
       labels:
         app: postgres
     spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: postgres
           image: {{ .Values.image.postgres }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             limits:
               cpu: 300m
@@ -34,7 +38,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 6
-
           readinessProbe:
             exec:
               command:

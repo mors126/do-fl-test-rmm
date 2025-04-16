@@ -13,10 +13,14 @@ spec:
       labels:
         app: tactical-backend
     spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: tactical-init
           image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
           command: ["/entrypoint.sh", "tactical-init"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           volumeMounts:
             - name: tactical-volume
               mountPath: /opt/tactical
@@ -46,6 +50,8 @@ spec:
           image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
           command: ["/entrypoint.sh"]
           args: ["tactical-backend"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
             - containerPort: 8000
           resources:
