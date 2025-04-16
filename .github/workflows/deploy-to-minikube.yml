@@ -1,0 +1,55 @@
+name: Deploy Helm Chart to Minikube
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  STAGE: "dev"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up minikube
+        uses: helm/kind-action@v1.8.0
+        with:
+          cluster_name: kind
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.14.0
+
+      - name: Display Kubernetes nodes (debug)
+        run: kubectl get nodes
+
+      - name: Create namespace (if needed)
+        run: kubectl create namespace tactical || true
+
+      - name: Deploy Helm chart
+        run: |
+          helm upgrade --install tactical ./tactical-helm \
+            --namespace tactical \
+            --create-namespace \
+            --values ./tactical-helm/values.yaml \
+            --values ./tactical-helm/environments/${{ env.STAGE }}/values.yaml \
+            --set image.tag=1.1.1 \
+            --set auth.rootPassword=${{ secrets.MONGO_ROOT_PASS }} \
+            --set auth.username=${{ secrets.MONGO_USER }} \
+            --set auth.password=${{ secrets.MONGO_PASS }} \
+            --set auth.database=${{ secrets.MONGO_DB }} \
+            --set djangoSecretKey=${{ secrets.DJANGO_SEC }} \
+            --set postgresUser=${{ secrets.PG_USER }} \
+            --set postgresPassword=${{ secrets.PG_PASS }} \
+            --set postgresDb=${{ secrets.PG_DB }} \
+            --wait --timeout 2m0s
+
+      - name: Show deployed services
+        run: kubectl get svc -n tactical

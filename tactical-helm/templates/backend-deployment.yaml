@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: tactical-init
-          image: mmoroz612/tbe:1.1.1
+          image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
           command: ["/entrypoint.sh", "tactical-init"]
           volumeMounts:
             - name: tactical-volume
@@ -43,7 +43,7 @@ spec:
               value: redis
       containers:
         - name: backend
-          image: {{ .Values.image.backend }}
+          image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
           command: ["/entrypoint.sh"]
           args: ["tactical-backend"]
           ports:
@@ -55,22 +55,22 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 2
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 2
-            periodSeconds: 5
-            timeoutSeconds: 2
-            failureThreshold: 3
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8080
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8080
+          #   initialDelaySeconds: 2
+          #   periodSeconds: 5
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
           envFrom:
             - configMapRef:
                 name: tactical-backend-config

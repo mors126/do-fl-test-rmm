@@ -42,10 +42,7 @@ config:
 mongodb:
   enabled: true
   auth:
-    rootPassword: adminmongopass
-    username: mongouser
-    password: mongopass
-    database: meshcentral
+
   architecture: standalone
   primary:
     persistence:
@@ -60,7 +57,3 @@ mongodb:
       memory: 128Mi
 
 secrets:
-  djangoSecretKey: changemeplease
-  postgresUser: tactical
-  postgresPassword: supersecurepassword
-  postgresDb: tacticalrmm

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: nats
-          image: {{ .Values.image.nats }}
+          image: {{ .Values.image.nats }}:{{ .Values.image.tag | default .Values.image.tag }}
           ports:
             - containerPort: 4222
             - containerPort: 9235
@@ -26,19 +26,19 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 4222
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 2
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 4222
-            initialDelaySeconds: 2
-            periodSeconds: 5
-            timeoutSeconds: 2
-            failureThreshold: 3
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4222
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4222
+          #   initialDelaySeconds: 2
+          #   periodSeconds: 5
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
