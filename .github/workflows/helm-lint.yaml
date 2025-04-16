@@ -38,7 +38,13 @@ jobs:
         run: helm plugin install https://github.com/helm-unittest/helm-unittest.git
 
       - name: Run Helm Unit Tests
-        run: helm unittest tactical-helm/*
+        run: |
+          for chart in tactical-helm/*; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Running tests for $chart"
+              helm unittest "$chart"
+            fi
+          done
 
       - name: Run chart-testing (list-changed)
         id: list-changed
