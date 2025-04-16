@@ -14,10 +14,12 @@ spec:
         app: meshcentral
     spec:
       securityContext:
+        {{- if .Values.podSecurityContext }}
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       containers:
         - name: meshcentral
-          image: {{ .Values.image.meshcentral }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.meshcentral }}:{{ .Values.image.tag | default "latest" }}"
           resources:
             limits:
               cpu: 100m
@@ -26,7 +28,9 @@ spec:
               cpu: 50m
               memory: 50Mi
           securityContext:
+            {{- if .Values.securityContext }}
             {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- end }}
           # livenessProbe:
           #   httpGet:
           #     path: /

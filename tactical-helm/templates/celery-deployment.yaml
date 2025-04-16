@@ -14,14 +14,18 @@ spec:
         app: tactical-celery
     spec:
       securityContext:
+        {{- if .Values.podSecurityContext }}
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       containers:
         - name: celery
-          image: {{ .Values.image.backend }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.backend }}:{{ .Values.image.tag | default "latest" }}"
           command: ["/entrypoint.sh"]
           args: ["tactical-celery"]
           securityContext:
+            {{- if .Values.securityContext }}
             {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- end }}
           resources:
             limits:
               cpu: 100m

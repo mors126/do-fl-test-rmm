@@ -14,12 +14,16 @@ spec:
         app: tactical-frontend
     spec:
       securityContext:
+        {{- if .Values.podSecurityContext }}
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- end }}
       containers:
         - name: frontend
-          image: {{ .Values.image.frontend }}:{{ .Values.image.tag | default .Values.image.tag }}
+          image: "{{ .Values.image.frontend }}:{{ .Values.image.tag | default "latest" }}"
           securityContext:
+            {{- if .Values.securityContext }}
             {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- end }}
           ports:
             - containerPort: 80
           resources:
