@@ -19,11 +19,11 @@ spec:
           image: {{ .Values.image.postgres }}
           resources:
             limits:
-              cpu: 1
-              memory: 1024Mi
+              cpu: 300m
+              memory: 256Mi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 50m
+              memory: 50Mi
           ports:
             - containerPort: 5432
           env:
