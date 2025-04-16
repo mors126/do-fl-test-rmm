@@ -25,11 +25,11 @@ spec:
               mountPath: /opt/tactical/certs
           env:
             - name: API_HOST
-              value: "api.tacticalrmm.local"
+              value: "api.tactical.local"
             - name: APP_HOST
-              value: "frontend.tacticalrmm.local"
+              value: "frontend.tactical.local"
             - name: MESH_HOST
-              value: "mesh.tacticalrmm.local"
+              value: "mesh.tactical.local"
       volumes:
         - name: certs
           emptyDir: {}

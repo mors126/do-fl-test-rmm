@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tacticalrmm-backend-config
+  name: tactical-backend-config
   namespace: {{ .Values.namespace }}
 data:
   DJANGO_SETTINGS_MODULE: "api.settings.prod"

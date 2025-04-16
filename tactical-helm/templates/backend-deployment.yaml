@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tacticalrmm-backend
+  name: tactical-backend
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tacticalrmm-backend
+      app: tactical-backend
   template:
     metadata:
       labels:
-        app: tacticalrmm-backend
+        app: tactical-backend
     spec:
       initContainers:
         - name: tactical-init
@@ -22,22 +22,22 @@ spec:
               mountPath: /opt/tactical
           envFrom:
             - configMapRef:
-                name: tacticalrmm-backend-config
+                name: tactical-backend-config
           env:
             - name: DJANGO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: DJANGO_SECRET_KEY
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: POSTGRES_USER
             - name: POSTGRES_PASS
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: POSTGRES_PASSWORD
             - name: REDIS_HOST
               value: redis
@@ -50,24 +50,24 @@ spec:
             - containerPort: 8000
           envFrom:
             - configMapRef:
-                name: tacticalrmm-backend-config
+                name: tactical-backend-config
           env:
             - name: DJANGO_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: DJANGO_SECRET_KEY
             - name: DATABASE_URL
-              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/tacticalrmm
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/tactical
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: tacticalrmm-secrets
+                  name: tactical-secrets
                   key: POSTGRES_PASSWORD
             - name: REDIS_HOST
               value: redis

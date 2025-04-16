@@ -21,6 +21,15 @@ spec:
           volumeMounts:
             - name: meshcentral-data
               mountPath: /home/node/app/meshcentral-data
+          env:
+            - name: MONGODB_USER
+              value: {{ .Values.mongodb.auth.username | quote }}
+            - name: MONGODB_PASSWORD
+              value: {{ .Values.mongodb.auth.password | quote }}
+            - name: MONGODB_HOST
+              value: {{ printf "%s-mongodb" .Release.Name | quote }}
+            - name: MONGODB_PORT
+              value: "27017"
       volumes:
         - name: meshcentral-data
           emptyDir: {}

@@ -1,6 +1,6 @@
 # Tactical RMM Helm Chart
 
-This Helm chart deploys [Tactical RMM](https://github.com/youruser/tacticalrmm.git) and its supporting services on Kubernetes.
+This Helm chart deploys [Tactical RMM](https://github.com/youruser/tactical.git) and its supporting services on Kubernetes.
 
 ## Components Deployed
 
@@ -10,8 +10,10 @@ This Helm chart deploys [Tactical RMM](https://github.com/youruser/tacticalrmm.g
 - PostgreSQL (with optional PV/PVC)
 - Redis
 - NATS
+- Nginx
 - MeshCentral
 - Ingress with fixed hostnames
+- MongoDB
 
 ## Prerequisites
 
@@ -25,5 +27,5 @@ This Helm chart deploys [Tactical RMM](https://github.com/youruser/tacticalrmm.g
 1. Clone the repo or extract the Helm chart directory:
 
 ```bash
-git clone https://github.com/youruser/tacticalrmm.git
-cd tacticalrmm/tacticalrmm-helm
+git clone https://github.com/youruser/tactical.git
+cd tactical/tactical-helm

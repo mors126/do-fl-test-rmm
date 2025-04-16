@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tacticalrmm-ingress
+  name: tactical-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: tacticalrmm-frontend
+                name: tactical-frontend
                 port:
                   number: 80
     - host: {{ .Values.ingress.hosts.backend }}
@@ -26,7 +26,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: tacticalrmm-backend
+                name: tactical-backend
                 port:
                   number: 80
     - host: {{ .Values.ingress.hosts.mesh }}

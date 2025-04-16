@@ -1,6 +1,10 @@
 apiVersion: v2
-name: tacticalrmm
+name: tactical
 description: Helm chart for deploying Tactical RMM
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
+dependencies:
+  - name: mongodb
+    version: 16.5.1
+    repository: https://charts.bitnami.com/bitnami

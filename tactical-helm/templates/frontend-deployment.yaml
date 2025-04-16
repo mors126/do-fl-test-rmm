@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tacticalrmm-frontend
+  name: tactical-frontend
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tacticalrmm-frontend
+      app: tactical-frontend
   template:
     metadata:
       labels:
-        app: tacticalrmm-frontend
+        app: tactical-frontend
     spec:
       containers:
         - name: frontend
