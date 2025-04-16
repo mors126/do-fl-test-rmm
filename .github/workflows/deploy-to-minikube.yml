@@ -41,14 +41,14 @@ jobs:
             --values ./tactical-helm/values.yaml \
             --values ./tactical-helm/environments/${{ env.STAGE }}/values.yaml \
             --set image.tag=1.1.1 \
-            --set auth.rootPassword=${{ secrets.MONGO_ROOT_PASS }} \
-            --set auth.username=${{ secrets.MONGO_USER }} \
-            --set auth.password=${{ secrets.MONGO_PASS }} \
-            --set auth.database=${{ secrets.MONGO_DB }} \
-            --set djangoSecretKey=${{ secrets.DJANGO_SEC }} \
-            --set postgresUser=${{ secrets.PG_USER }} \
-            --set postgresPassword=${{ secrets.PG_PASS }} \
-            --set postgresDb=${{ secrets.PG_DB }} \
+            --set mongodb.auth.rootPassword=${{ secrets.MONGO_ROOT_PASS }} \
+            --set mongodb.auth.username=${{ secrets.MONGO_USER }} \
+            --set mongodb.auth.password=${{ secrets.MONGO_PASS }} \
+            --set mongodb.auth.database=${{ secrets.MONGO_DB }} \
+            --set secrets.djangoSecretKey=${{ secrets.DJANGO_SEC }} \
+            --set secrets.postgresUser=${{ secrets.PG_USER }} \
+            --set secrets.postgresPassword=${{ secrets.PG_PASS }} \
+            --set secrets.postgresDb=${{ secrets.PG_DB }} \
             --wait --timeout 2m0s
 
       - name: Show deployed services
