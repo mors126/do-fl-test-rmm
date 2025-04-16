@@ -25,8 +25,8 @@ spec:
               cpu: 50m
               memory: 50Mi
           ports:
-            - containerPort: 80
-            - containerPort: 443
+            - containerPort: 8080
+            - containerPort: 4443
           volumeMounts:
             - name: certs
               mountPath: /opt/tactical/certs
@@ -39,17 +39,16 @@ spec:
               value: "mesh.tactical.local"
           livenessProbe:
             httpGet:
-              path: /healthz
-              port: 80
+              path: /
+              port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 2
             failureThreshold: 3
-
           readinessProbe:
             httpGet:
-              path: /healthz
-              port: 80
+              path: /
+              port: 8080
             initialDelaySeconds: 2
             periodSeconds: 5
             timeoutSeconds: 2
