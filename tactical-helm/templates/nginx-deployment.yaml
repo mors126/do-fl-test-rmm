@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tactical-nginx
+  labels:
+    app: tactical-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tactical-nginx
+  template:
+    metadata:
+      labels:
+        app: tactical-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: {{ .Values.image.nginx }}:{{ .Values.image.tag | default .Values.image.tag }}
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          ports:
+            - containerPort: 8080
+            - containerPort: 4443
+          volumeMounts:
+            - name: certs
+              mountPath: /opt/tactical/certs
+          env:
+            - name: API_HOST
+              value: "api.tactical.local"
+            - name: APP_HOST
+              value: "frontend.tactical.local"
+            - name: MESH_HOST
+              value: "mesh.tactical.local"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+      volumes:
+        - name: certs
+          emptyDir: {}

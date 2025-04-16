@@ -1,0 +1,59 @@
+namespace: tactical
+
+image:
+  backend: mmoroz612/tbe:1.1.1
+  frontend: mmoroz612/tfe:1.1.1
+  meshcentral: mmoroz612/tmesh:1.1.1
+  redis: redis:6
+  postgres: postgres:13
+  nats: mmoroz612/tnats:1.1.1
+  nginx: mmoroz612/tnginx:1.1.1
+  tag: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    frontend: frontend.tactical.local
+    backend: api.tactical.local
+    mesh: mesh.tactical.local
+
+persistence:
+  postgres:
+    size: 5Gi
+  meshcentral:
+    enabled: false # You can toggle PVC later
+
+config:
+  allowedHosts: "localhost,127.0.0.1,.tactical.local"
+  apiHost: "http://api.tactical.local"
+  frontendUrl: "http://frontend.tactical.local"
+  meshUrl: "http://mesh.tactical.local"
+  redisHost: "tactical-redis"
+  redisPort: "6379"
+  natsHost: "tactical-nats"
+  natsPort: "4222"
+  dbName: "tactical"
+  dbUser: "tactical"
+  timezone: "UTC"
+
+mongodb:
+  enabled: true
+  auth:
+
+  architecture: standalone
+  primary:
+    persistence:
+      enabled: false
+      size: 8Gi
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+secrets:

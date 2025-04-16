@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tactical-backend-config
+  namespace: {{ .Values.namespace }}
+data:
+  DJANGO_SETTINGS_MODULE: "api.settings.prod"
+  ALLOWED_HOSTS: "{{ .Values.config.allowedHosts }}"
+  API_HOST: "{{ .Values.config.apiHost }}"
+  FRONTEND_URL: "{{ .Values.config.frontendUrl }}"
+  MESH_URL: "{{ .Values.config.meshUrl }}"
+  REDIS_HOST: "{{ .Values.config.redisHost }}"
+  REDIS_PORT: "{{ .Values.config.redisPort }}"
+  NATS_HOST: "{{ .Values.config.natsHost }}"
+  NATS_PORT: "{{ .Values.config.natsPort }}"
+  DB_NAME: "{{ .Values.config.dbName }}"
+  DB_USER: "{{ .Values.config.dbUser }}"
+  TZ: "{{ .Values.config.timezone }}"

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meshcentral
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meshcentral
+  template:
+    metadata:
+      labels:
+        app: meshcentral
+    spec:
+      containers:
+        - name: meshcentral
+          image: {{ .Values.image.meshcentral }}:{{ .Values.image.tag | default .Values.image.tag }}
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8080
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8080
+          #   initialDelaySeconds: 2
+          #   periodSeconds: 5
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: meshcentral-data
+              mountPath: /home/node/app/meshcentral-data
+            - name: tactical-volume
+              mountPath: /opt/tactical
+          env:
+            - name: MONGODB_USER
+              value: {{ .Values.mongodb.auth.username | quote }}
+            - name: MONGODB_PASSWORD
+              value: {{ .Values.mongodb.auth.password | quote }}
+            - name: MONGODB_HOST
+              value: {{ printf "%s-mongodb" .Release.Name | quote }}
+            - name: MONGODB_PORT
+              value: "27017"
+      volumes:
+        - name: meshcentral-data
+          emptyDir: {}
+        - name: tactical-volume
+          emptyDir: {}

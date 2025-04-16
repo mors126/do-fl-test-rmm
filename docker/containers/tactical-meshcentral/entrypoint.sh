@@ -23,7 +23,7 @@ set -e
 
 if [ ! -f "/home/node/app/meshcentral-data/config.json" ] || [[ "${MESH_PERSISTENT_CONFIG}" -eq 0 ]]; then
 
-  encoded_uri=$(node -p "encodeURI('mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}')")
+  encoded_uri=$(node -p "encodeURI('mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}?authSource=meshcentral')")
 
   mesh_config="$(
     cat <<EOF
@@ -81,6 +81,8 @@ fi
 
 node node_modules/meshcentral --createaccount ${MESH_USER} --pass ${MESH_PASS} --email example@example.com
 node node_modules/meshcentral --adminaccount ${MESH_USER}
+
+mkdir -p /opt/tactical/tmp/
 
 if [ ! -f "${TACTICAL_DIR}/tmp/mesh_token" ]; then
   mesh_token=$(node node_modules/meshcentral --logintokenkey)
