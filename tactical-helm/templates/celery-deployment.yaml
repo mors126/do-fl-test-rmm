@@ -18,6 +18,13 @@ spec:
           image: {{ .Values.image.backend }}
           command: ["/entrypoint.sh"]
           args: ["tactical-celery"]
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
           envFrom:
             - configMapRef:
                 name: tactical-backend-config

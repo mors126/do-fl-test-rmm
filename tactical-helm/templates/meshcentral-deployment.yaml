@@ -16,11 +16,20 @@ spec:
       containers:
         - name: meshcentral
           image: {{ .Values.image.meshcentral }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
           ports:
             - containerPort: 443
           volumeMounts:
             - name: meshcentral-data
               mountPath: /home/node/app/meshcentral-data
+            - name: tactical-volume
+              mountPath: /opt/tactical
           env:
             - name: MONGODB_USER
               value: {{ .Values.mongodb.auth.username | quote }}
@@ -32,4 +41,6 @@ spec:
               value: "27017"
       volumes:
         - name: meshcentral-data
+          emptyDir: {}
+        - name: tactical-volume
           emptyDir: {}
